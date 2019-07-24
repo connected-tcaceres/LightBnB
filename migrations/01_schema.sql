@@ -23,11 +23,11 @@ CREATE TABLE properties (
   parking_spaces smallint,
   number_of_bathrooms smallint,
   number_of_bedrooms smallint,
-  country text,
-  street text,
-  city text,
-  province text,
-  post_code text,
+  country text NOT NULL,
+  street text NOT NULL,
+  city text NOT NULL,
+  province text NOT NULL,
+  post_code text NOT NULL,
   active boolean DEFAULT TRUE
 );
 
