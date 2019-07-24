@@ -7,9 +7,9 @@ CREATE EXTENSION CITEXT;
 
 CREATE TABLE users (
   id serial PRIMARY KEY,
-  name varchar(255) NOT NULL,
+  name text NOT NULL,
   email CITEXT UNIQUE,
-  password varchar(50) NOT NULL
+  password text NOT NULL
 );
 
 CREATE TABLE properties (
