@@ -1,6 +1,9 @@
 DROP TABLE IF EXISTS users CASCADE;
+
 DROP TABLE IF EXISTS properties CASCADE;
+
 DROP TABLE IF EXISTS reservations CASCADE;
+
 DROP TABLE IF EXISTS property_reviews CASCADE;
 
 CREATE EXTENSION CITEXT;
@@ -9,7 +12,7 @@ CREATE TABLE users (
   id serial PRIMARY KEY,
   name text NOT NULL,
   email CITEXT UNIQUE,
-  password text NOT NULL
+  PASSWORD text NOT NULL
 );
 
 CREATE TABLE properties (
@@ -44,7 +47,8 @@ CREATE TABLE property_reviews (
   guest_id integer NOT NULL REFERENCES users (id) ON DELETE CASCADE,
   reservation_id integer NOT NULL REFERENCES reservations (id) ON DELETE CASCADE,
   property_id integer NOT NULL REFERENCES properties (id) ON DELETE CASCADE,
-  rating smallint CONSTRAINT rating_values CHECK (rating >= 1 AND rating <= 5),
+  rating smallint CONSTRAINT rating_values CHECK (rating >= 1
+    AND rating <= 5),
   message text
 );
 
