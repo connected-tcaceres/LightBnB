@@ -114,8 +114,6 @@ exports.getAllReservations = getAllReservations;
  * @return {Promise<[{}]>}  A promise to the properties.
  */
 const getAllProperties = function(options, limit = 10) {
-  console.log('options:', options);
-  console.log('limit:', limit);
   const queryParams = [];
   let queryString = `
   SELECT
@@ -138,7 +136,6 @@ const getAllProperties = function(options, limit = 10) {
       count++;
     }
   }
-  console.log(count);
 
   if (count > 0) {
     queryString += `WHERE `;
@@ -184,8 +181,6 @@ const getAllProperties = function(options, limit = 10) {
   queryString += `
     ORDER BY p.cost_per_night
     LIMIT $${queryParams.length};`;
-  console.log('queryString:', queryString);
-  console.log('queryParams:', queryParams);
   return pool
     .query({
       text: queryString,
@@ -201,9 +196,45 @@ exports.getAllProperties = getAllProperties;
  * @return {Promise<{}>} A promise to the property.
  */
 const addProperty = function(property) {
-  const propertyId = Object.keys(properties).length + 1;
-  property.id = propertyId;
-  properties[propertyId] = property;
-  return Promise.resolve(property);
+  const queryParams = [];
+  let queryString = `
+  INSERT INTO
+      properties (owner_id,title,description,thumbnail_photo_url,cover_photo_url,cost_per_night,street,city,province,post_code,country,parking_spaces,number_of_bathrooms,number_of_bedrooms)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *`;
+  let property_attributes = [
+    'owner_id',
+    'title',
+    'description',
+    'thumbnail_photo_url',
+    'cover_photo_url',
+    'cost_per_night',
+    'street',
+    'city',
+    'provence', //incorrect name
+    'post_code',
+    'country',
+    'parking_spaces',
+    'number_of_bathrooms',
+    'number_of_bedrooms'
+  ];
+  for (const prop of property_attributes) {
+    if (
+      prop === 'owner_id' ||
+			prop === 'parking_spaces' ||
+			prop === 'number_of_bathrooms' ||
+			prop === 'number_of_bedrooms'
+    ) {
+      queryParams.push(property[prop]);
+    } else {
+      queryParams.push(`${property[prop]}`);
+    }
+  }
+
+  return pool
+    .query({
+      text: queryString,
+      values: queryParams
+    })
+    .then((res) => res.rows[0]);
 };
 exports.addProperty = addProperty;
