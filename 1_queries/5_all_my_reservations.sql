@@ -8,6 +8,7 @@
 -- where r.guest_id = 1 and r.end_date < now()::date
 -- order by start_date
 -- limit 10;
+
 select p.*,r.*, temp_avg.average as average_rating
 from reservations r
 join properties p on p.id = r.property_id
