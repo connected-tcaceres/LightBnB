@@ -5,8 +5,7 @@ INSERT INTO users (name, email, PASSWORD)
     ('anchen', 'anchen@gmail.com', 'password');
  
 INSERT INTO properties (owner_id, title, description, cost_per_night, country, street, city, province, post_code)
-    VALUES
-    (1, 'tylers place', 'description', 100, 'country', 'street', 'city', 'province', 'postal code'),
+    VALUES(1, 'tylers place', 'description', 100, 'country', 'street', 'city', 'province', 'postal code'),
     (2, 'selins place', 'description2', 200, 'country2', 'street2', 'city2', 'province2', 'postal code2'),
     (3, 'anchens place', 'description3', 300, 'country3', 'street3', 'city3', 'province3', 'postal code3');
 
